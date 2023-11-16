@@ -22,7 +22,7 @@ export default class App {
         app.use(helmet());
         app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
         app.use(cors());
-        app.use(express.json());        
+        app.use(express.json());
 
         const controllers: RegistrableController[] = container.getAll<RegistrableController>(Types.Controller);
         controllers.forEach(controller => controller.register(app));
