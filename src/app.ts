@@ -4,12 +4,13 @@ import compression from 'compression';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
-import { Types, container } from './config/inversify';
+import { container } from './config/inversify';
 import { RegistrableController } from './controller/RegistrableController';
 import { NotFound, BadRequest, Unauthorize, Conflict } from './util/exceptions';
 import { notFoundResponse, badRequestResponse, unauthorizeResponse, conflictResponse, internalResponse } from './util/response';
 import { DataSource } from 'typeorm';
 import { dataSource } from './config/db';
+import Types from './config/types';
 
 export default class App {
 

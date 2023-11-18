@@ -1,3 +1,4 @@
+import { User } from '../entity/user.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 const dbOptions: DataSourceOptions = {
@@ -7,7 +8,9 @@ const dbOptions: DataSourceOptions = {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [],
+    entities: [
+        User
+    ],
     logging: Boolean(process.env.DB_LOGGING || false),
     synchronize: Boolean(process.env.DB_SYNC || false),
     ssl: true,
