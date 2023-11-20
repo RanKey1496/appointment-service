@@ -20,11 +20,13 @@
   "author": "rankey1496",
   "license": "ISC",
   "dependencies": {
+    "@googleapis/calendar": "^9.3.2",
     "axios": "^1.6.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase-admin": "^11.11.0",
+    "googleapis": "^128.0.0",
     "helmet": "^7.1.0",
     "http-status": "^1.7.3",
     "inversify": "^6.0.2",

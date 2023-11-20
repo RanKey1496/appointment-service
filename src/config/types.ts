@@ -6,6 +6,7 @@ const Types = {
     UserService: Symbol('UserService'),
     FirebaseService: Symbol('FirebaseService'),
     JWTService: Symbol('JWTService'),
+    CalendarService: Symbol('CalendarService'),
 
     UserRepository: Symbol('UserRepository')
 };
