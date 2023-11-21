@@ -37,7 +37,7 @@ export class User {
 
     @CreateDateColumn()
     public createdAt: Date;
-  
+
     @UpdateDateColumn()
     public updatedAt: Date;
 

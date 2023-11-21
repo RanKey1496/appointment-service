@@ -9,7 +9,7 @@ export interface CalendarService {
 
 @injectable()
 export class CalendarServiceImpl implements CalendarService {
-    
+
     private calendar: calendar_v3.Calendar;
 
     constructor() {
@@ -18,7 +18,7 @@ export class CalendarServiceImpl implements CalendarService {
 
         const auth = new Auth.JWT(
             CREDETIALS.client_email,
-            null,
+            undefined,
             CREDETIALS.private_key,
             SCOPES
         );

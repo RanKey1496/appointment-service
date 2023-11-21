@@ -1,8 +1,8 @@
-import { inject, injectable } from "inversify";
-import { User } from "../entity/user.entity";
-import { UserRepository } from "../repository/user.repository";
-import { Conflict, NotFound } from "../util/exceptions";
-import Types from "../config/types";
+import { inject, injectable } from 'inversify';
+import { User } from '../entity/user.entity';
+import { UserRepository } from '../repository/user.repository';
+import { Conflict, NotFound } from '../util/exceptions';
+import Types from '../config/types';
 
 export interface UserService {
     getAll(): Promise<User[]>;
@@ -44,5 +44,5 @@ export class UserServiceImpl implements UserService {
         }
         return result;
     }
-    
+
 }

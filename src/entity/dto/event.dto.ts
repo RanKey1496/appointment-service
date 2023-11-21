@@ -7,5 +7,5 @@ export class Event {
     reminders: {
         useDefault: boolean,
         overrides: Array<{ method: string, minutes: number }>
-    }
+    };
 }

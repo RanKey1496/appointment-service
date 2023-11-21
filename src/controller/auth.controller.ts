@@ -33,7 +33,7 @@ export class AuthController implements RegistrableController {
                 const result = await this.jwtService.generateAccessToken(user);
                 return dataResponse(res, { accessToken: result });
             } catch (error) {
-                console.log(error)
+                console.log(error);
                 return next(error);
             }
         });
@@ -56,7 +56,7 @@ export class AuthController implements RegistrableController {
             } catch (error) {
                 return next(error);
             }
-        })
+        });
 
         app.get('/list', async (req: Request, res: Response, next: NextFunction) => {
             try {

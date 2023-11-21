@@ -42,7 +42,7 @@ export class BookController implements RegistrableController {
                         { method: 'email', minutes: 12 * 60 },
                         { method: 'popup', minutes: 10 }
                     ]
-                }
+                };
                 const result = await this.calendarService.insertEvent(event);
                 return dataResponse(res, result);
             } catch (error) {
