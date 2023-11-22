@@ -32,7 +32,7 @@ export class ScheduleServiceImpl implements ScheduleService {
         const result = [];
         const actual = moment(startDatetime).tz('America/Bogota', true);
         while (!actual.isSame(moment(endDateTime).tz('America/Bogota', true))) {
-            console.log('actual', actual.format())
+            console.log('actual', actual.format());
             result.push(actual.format());
             actual.add('1', 'hours');
         }
@@ -43,7 +43,7 @@ export class ScheduleServiceImpl implements ScheduleService {
         return schedules.map(x => {
             const start = moment(`${date} ${x.startHour}`).tz('America/Bogota', true).format();
             const end = moment(`${date} ${x.endHour}`).tz('America/Bogota', true).format();
-            console.log('start', start, 'end', end)
+            console.log('start', start, 'end', end);
             return this.generateRange(start, end);
         }).flat();
     }
