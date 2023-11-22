@@ -30,8 +30,8 @@ export class ScheduleServiceImpl implements ScheduleService {
 
     private generateRange(startDatetime: string, endDateTime: string): string[] {
         const result = [];
-        const actual = moment(startDatetime).utcOffset('-0500');
-        while (!actual.isSame(moment(endDateTime))) {
+        const actual = moment.utc(startDatetime).utcOffset('-05:00');
+        while (!actual.isSame(moment.utc(endDateTime).utcOffset('-05:00'))) {
             result.push(actual.format());
             actual.add('1', 'hours');
         }
@@ -40,8 +40,8 @@ export class ScheduleServiceImpl implements ScheduleService {
 
     private generateAllHours(date: string, schedules: ScheduleDay[]): string[] {
         return schedules.map(x => {
-            const start = moment(`${date} ${x.startHour}`).utcOffset('-0500').format();
-            const end = moment(`${date} ${x.endHour}`).utcOffset('-0500').format();
+            const start = moment.utc(`${date} ${x.startHour}`).utcOffset('-05:00').format();
+            const end = moment.utc(`${date} ${x.endHour}`).utcOffset('-05:00').format();
             return this.generateRange(start, end);
         }).flat();
     }
