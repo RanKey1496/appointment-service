@@ -40,8 +40,8 @@ export class ScheduleServiceImpl implements ScheduleService {
 
     private generateAllHours(date: string, schedules: ScheduleDay[]): string[] {
         return schedules.map(x => {
-            const start = moment.utc(`${date} ${x.startHour}`).tz('America/Bogota', true).format();
-            const end = moment.utc(`${date} ${x.endHour}`).tz('America/Bogota', true).format();
+            const start = moment(`${date} ${x.startHour}`).tz('America/Bogota', true).format();
+            const end = moment(`${date} ${x.endHour}`).tz('America/Bogota', true).format();
             return this.generateRange(start, end);
         }).flat();
     }
