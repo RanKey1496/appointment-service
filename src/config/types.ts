@@ -7,8 +7,10 @@ const Types = {
     FirebaseService: Symbol('FirebaseService'),
     JWTService: Symbol('JWTService'),
     CalendarService: Symbol('CalendarService'),
+    ScheduleService: Symbol('ScheduleService'),
 
-    UserRepository: Symbol('UserRepository')
+    UserRepository: Symbol('UserRepository'),
+    ScheduleRepository: Symbol('ScheduleRepository')
 };
 
 export default Types;

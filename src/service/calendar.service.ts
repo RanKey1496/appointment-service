@@ -1,10 +1,12 @@
 import { google, Auth, calendar_v3 } from 'googleapis';
 import { injectable } from 'inversify';
 import { Event } from '../entity/dto/event.dto';
+import moment from 'moment';
 
 export interface CalendarService {
-    getEvents(startDatetime: string, endDatetime: string): Promise<any>;
+    getEvents(startDatetime: string | Date, endDatetime: string | Date): Promise<any>;
     insertEvent(event: Event): Promise<any>;
+    findByDate(date: string): Promise<any>;
 }
 
 @injectable()
@@ -28,6 +30,7 @@ export class CalendarServiceImpl implements CalendarService {
 
     public async getEvents(startDatetime: string, endDatetime: string) {
         try {
+            console.log('StartDateTime: ', startDatetime, ' EndDateTime: ', endDatetime);
             const response = await this.calendar.events.list({
                 calendarId: process.env.CALENDAR_ID,
                 timeMin: startDatetime,
@@ -47,6 +50,12 @@ export class CalendarServiceImpl implements CalendarService {
         });
 
         return response.data;
+    }
+
+    public async findByDate(date: string): Promise<any> {
+        const startDate = moment(date).startOf('day').format();
+        const endDate = moment(date).endOf('day').format();
+        return this.getEvents(startDate, endDate);
     }
 
 }

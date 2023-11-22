@@ -5,6 +5,7 @@ import { dataResponse } from '../util/response';
 import Types from '../config/types';
 import { CalendarService } from '../service/calendar.service';
 import { Event } from '../entity/dto/event.dto';
+import { ScheduleService } from '../service/schedule.service';
 
 @injectable()
 export class BookController implements RegistrableController {
@@ -12,7 +13,23 @@ export class BookController implements RegistrableController {
     @inject(Types.CalendarService)
     private calendarService: CalendarService;
 
+    @inject(Types.ScheduleService)
+    private scheduleService: ScheduleService;
+
     public register(app: Application): void {
+
+        app.post('/book/available', async (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const { date } = req.body;
+                // Validar que está en el rango de fechas
+                const schedules = await this.scheduleService.findByDate(date);
+                const booked = await this.calendarService.findByDate(date);
+                const availableHours = await this.scheduleService.generateAvailableHours(date, schedules, booked);
+                return dataResponse(res, { availableHours, schedules, booked });
+            } catch (error) {
+                return next(error);
+            }
+        });
 
         app.get('/events', async (req: Request, res: Response, next: NextFunction) => {
             try {
