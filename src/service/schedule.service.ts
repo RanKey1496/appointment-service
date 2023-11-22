@@ -30,9 +30,9 @@ export class ScheduleServiceImpl implements ScheduleService {
 
     private generateRange(startDatetime: string, endDateTime: string): string[] {
         const result = [];
-        const actual = moment(startDatetime).tz('America/Bogota', true);
-        while (!actual.isSame(moment(endDateTime).tz('America/Bogota', true))) {
-            console.log('actual', actual.format());
+        const actual = moment.tz(startDatetime, 'America/Bogota');
+        while (!actual.isSame(moment.tz(endDateTime, 'America/Bogota'))) {
+            console.log('actual', actual.format(), 'moment', actual);
             result.push(actual.format());
             actual.add('1', 'hours');
         }
