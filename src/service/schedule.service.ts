@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import Types from '../config/types';
 import { ScheduleRepository } from '../repository/schedule.repository';
-import moment, { Moment } from 'moment';
+import moment, { Moment } from 'moment-timezone';
 import Holidays from 'date-holidays';
 import { ScheduleDay } from '../entity/schedule.entity';
 
@@ -30,8 +30,8 @@ export class ScheduleServiceImpl implements ScheduleService {
 
     private generateRange(startDatetime: string, endDateTime: string): string[] {
         const result = [];
-        const actual = moment.utc(startDatetime).utcOffset('-05:00');
-        while (!actual.isSame(moment.utc(endDateTime).utcOffset('-05:00'))) {
+        const actual = moment(startDatetime).tz('America/Bogota', true);
+        while (!actual.isSame(moment(endDateTime).tz('America/Bogota', true))) {
             result.push(actual.format());
             actual.add('1', 'hours');
         }
@@ -40,8 +40,8 @@ export class ScheduleServiceImpl implements ScheduleService {
 
     private generateAllHours(date: string, schedules: ScheduleDay[]): string[] {
         return schedules.map(x => {
-            const start = moment.utc(`${date} ${x.startHour}`).utcOffset('-05:00').format();
-            const end = moment.utc(`${date} ${x.endHour}`).utcOffset('-05:00').format();
+            const start = moment.utc(`${date} ${x.startHour}`).tz('America/Bogota', true).format();
+            const end = moment.utc(`${date} ${x.endHour}`).tz('America/Bogota', true).format();
             return this.generateRange(start, end);
         }).flat();
     }
