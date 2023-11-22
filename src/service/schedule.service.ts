@@ -30,9 +30,8 @@ export class ScheduleServiceImpl implements ScheduleService {
 
     private generateRange(startDatetime: string, endDateTime: string): string[] {
         const result = [];
-        const actual = moment.tz(startDatetime, 'America/Bogota');
-        while (!actual.isSame(moment.tz(endDateTime, 'America/Bogota'))) {
-            console.log('actual', actual.format(), 'moment', actual);
+        const actual = moment(startDatetime);
+        while (!actual.isSame(moment(endDateTime))) {
             result.push(actual.format());
             actual.add('1', 'hours');
         }
@@ -43,7 +42,6 @@ export class ScheduleServiceImpl implements ScheduleService {
         return schedules.map(x => {
             const start = moment(`${date} ${x.startHour}`).tz('America/Bogota', true).format();
             const end = moment(`${date} ${x.endHour}`).tz('America/Bogota', true).format();
-            console.log('start', start, 'end', end);
             return this.generateRange(start, end);
         }).flat();
     }
