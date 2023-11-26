@@ -11,12 +11,16 @@ import { CalendarService, CalendarServiceImpl } from '../service/calendar.servic
 import { BookController } from '../controller/book.controller';
 import { ScheduleRepository } from '../repository/schedule.repository';
 import { ScheduleService, ScheduleServiceImpl } from '../service/schedule.service';
+import { ServiceService, ServiceServiceImpl } from '../service/service.service';
+import { ServiceRepository } from '../repository/service.repository';
+import { ServiceController } from '../controller/service.controller';
 
 const container: Container = new Container();
 
 // Controllers
 container.bind<RegistrableController>(Types.Controller).to(AuthController);
 container.bind<RegistrableController>(Types.Controller).to(BookController);
+container.bind<RegistrableController>(Types.Controller).to(ServiceController);
 
 // Middlewares
 container.bind<AuthMiddleware>(Types.AuthMiddleware).to(AuthMiddlewareImpl);
@@ -27,9 +31,11 @@ container.bind<FirebaseService>(Types.FirebaseService).to(FirebaseServiceImpl);
 container.bind<JWTService>(Types.JWTService).to(JWTServiceImpl);
 container.bind<CalendarService>(Types.CalendarService).to(CalendarServiceImpl);
 container.bind<ScheduleService>(Types.ScheduleService).to(ScheduleServiceImpl);
+container.bind<ServiceService>(Types.ServiceService).to(ServiceServiceImpl);
 
 // Repositories
 container.bind<UserRepository>(Types.UserRepository).to(UserRepository);
 container.bind<ScheduleRepository>(Types.ScheduleRepository).to(ScheduleRepository);
+container.bind<ServiceRepository>(Types.ServiceRepository).to(ServiceRepository);
 
 export { container };

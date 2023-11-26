@@ -4,7 +4,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 export class ScheduleDay {
 
     @PrimaryGeneratedColumn()
-    public id: string;
+    public id: number;
 
     @Column({ nullable: false })
     public dayId: number;

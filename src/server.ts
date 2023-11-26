@@ -7,7 +7,7 @@ process.on('uncaughtException', (err: any) => {
     console.error(`
     --------------------
     Unhandled Exception:
-    ${err.message}
+    ${err}
     --------------------
     `);
 });
@@ -16,7 +16,7 @@ process.on('unhandledRejection', (err: any) => {
     console.error(`
     --------------------
     Unhandled Rejection:
-    ${err.message}
+    ${err}
     --------------------
     `);
 });

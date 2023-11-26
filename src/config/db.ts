@@ -1,3 +1,4 @@
+import { Service } from '../entity/service.entity';
 import { ScheduleDay } from '../entity/schedule.entity';
 import { User } from '../entity/user.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
@@ -11,7 +12,8 @@ const dbOptions: DataSourceOptions = {
     database: process.env.DB_NAME,
     entities: [
         ScheduleDay,
-        User
+        User,
+        Service,
     ],
     logging: Boolean(process.env.DB_LOGGING || false),
     synchronize: Boolean(process.env.DB_SYNC || false),
