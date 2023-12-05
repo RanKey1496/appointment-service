@@ -28,7 +28,7 @@ export class JWTServiceImpl implements JWTService {
     }
 
     public async generateAccessTokenIfUserExists(user: any): Promise<string> {
-        if (!user) return null;
+        if (!user) return undefined;
         return await this.generateAccessToken(user);
     }
 

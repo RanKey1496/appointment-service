@@ -8,7 +8,7 @@ export interface MessageBirdService {
 export class MessageBirdServiceImpl implements MessageBirdService {
 
     public async sendOTPCode(phone: string, otp: string): Promise<void> {
-        
+
     }
 
 }
