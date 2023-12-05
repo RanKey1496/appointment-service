@@ -7,9 +7,14 @@ import { CalendarService } from '../service/calendar.service';
 import { Event } from '../entity/dto/event.dto';
 import { ScheduleService } from '../service/schedule.service';
 import { ServiceService } from '../service/service.service';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { MessageBirdService } from '../service/messageBird.service';
 
 @injectable()
 export class BookController implements RegistrableController {
+
+    @inject(Types.AuthMiddleware)
+    private authMiddleware: AuthMiddleware;
 
     @inject(Types.CalendarService)
     private calendarService: CalendarService;
@@ -19,6 +24,9 @@ export class BookController implements RegistrableController {
 
     @inject(Types.ServiceService)
     private serviceService: ServiceService;
+
+    @inject(Types.MessageBirdService)
+    private messageBirdService: MessageBirdService;
 
     public register(app: Application): void {
 
@@ -83,6 +91,32 @@ export class BookController implements RegistrableController {
             } catch (error) {
                 return next(error);
             }
+        });
+
+        app.post('/book', this.authMiddleware.isAuthenticated.bind(this.authMiddleware),
+            async (req: Request, res: Response, next: NextFunction) => {
+                try {
+                    const { services, hour } = req.body;
+                    console.log(services, hour);
+                    // Guardar en la base de datos
+                    console.log('user', res.req.body.user);
+                    this.messageBirdService.sendOrderConfirmation(res.req.body.user.phone, undefined);
+                    return dataResponse(res, 'Book saved successfully');
+                } catch (error) {
+                    return next(error);
+                }
+        });
+
+        app.post('/book/confirm', this.authMiddleware.isAuthenticated.bind(this.authMiddleware),
+            async (req: Request, res: Response, next: NextFunction) => {
+                try {
+                    const { id } = req.body;
+                    // Actualizar en la base de datos el estado por id
+                    // Enviar Mensaje de whatsapp
+                    return dataResponse(res, 'Book saved successfully');
+                } catch (error) {
+                    return next(error);
+                }
         });
 
     }
