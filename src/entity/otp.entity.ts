@@ -1,32 +1,34 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('Users')
-export class User {
+@Entity('OTP')
+export class OTP {
 
     @PrimaryGeneratedColumn()
     public id: number;
 
     @Column({
         type: 'varchar',
-        length: 50,
+        length: 6,
         nullable: false
     })
-    public name: string;
+    public code: string;
 
     @Column({
         type: 'varchar',
-        length: 13,
         nullable: false
     })
-    public phone: string;
+    public details: string;
 
     @Column({
-        type: 'varchar',
-        name: 'instagram',
-        length: 30,
+        nullable: false
+    })
+    public expirationTime: Date;
+
+    @Column({
+        default: false,
         nullable: true
     })
-    public instagram: string;
+    public verified: boolean;
 
     @CreateDateColumn()
     public createdAt: Date;

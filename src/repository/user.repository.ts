@@ -15,18 +15,9 @@ export class UserRepository extends GenericRepositoryImp<User> {
         this.userRepository = repository;
     }
 
-    public async findByPhoneOrFirebaseUid(phone: string, firebaseUid: string): Promise<User> {
+    public async findByPhone(phone: string): Promise<User> {
         return await this.userRepository.createQueryBuilder('user')
             .where('user.phone = :phone', { phone })
-            .orWhere('user.firebaseUid = :firebaseUid', { firebaseUid })
             .getOne();
     }
-
-    public async findByPhoneAndFirebaseUid(phone: string, firebaseUid: string): Promise<User> {
-        return await this.userRepository.createQueryBuilder('user')
-            .where('user.phone = :phone', { phone })
-            .andWhere('user.firebaseUid = :firebaseUid', { firebaseUid })
-            .getOne();
-    }
-
 }

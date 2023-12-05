@@ -5,25 +5,31 @@ export interface JWTService {
     generateAccessToken(data: any): Promise<string>;
     generateRefreshToken(data: any): Promise<string>;
     verifyToken(token: string): Promise<any>;
+    generateAccessTokenIfUserExists(user: any): Promise<string>;
 }
 
 @injectable()
 export class JWTServiceImpl implements JWTService {
 
-    async generateAccessToken(user: any): Promise<string> {
+    public async generateAccessToken(user: any): Promise<string> {
         const data = {
             name: user.name, instagram: user.instagram,
-            phone: user.phone, firebaseUid: user.firebaseUid
+            phone: user.phone
         };
         return await jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '86400s' });
     }
 
-    async generateRefreshToken(data: any): Promise<string> {
+    public async generateRefreshToken(data: any): Promise<string> {
         return await jwt.sign(data, process.env.JWT_SECRET);
     }
 
-    async verifyToken(token: string): Promise<any> {
+    public async verifyToken(token: string): Promise<any> {
         return await jwt.verify(token, process.env.JWT_SECRET);
+    }
+
+    public async generateAccessTokenIfUserExists(user: any): Promise<string> {
+        if (!user) return null;
+        return await this.generateAccessToken(user);
     }
 
 }
