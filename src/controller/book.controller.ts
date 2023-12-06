@@ -9,6 +9,8 @@ import { ScheduleService } from '../service/schedule.service';
 import { ServiceService } from '../service/service.service';
 import { AuthMiddleware } from '../middleware/auth.middleware';
 import { MessageBirdService } from '../service/messageBird.service';
+import { UserService } from '../service/user.service';
+import { OrderService } from '../service/order.service';
 
 @injectable()
 export class BookController implements RegistrableController {
@@ -27,6 +29,12 @@ export class BookController implements RegistrableController {
 
     @inject(Types.MessageBirdService)
     private messageBirdService: MessageBirdService;
+
+    @inject(Types.UserService)
+    private userService: UserService;
+
+    @inject(Types.OrderService)
+    private orderService: OrderService;
 
     public register(app: Application): void {
 
@@ -93,16 +101,21 @@ export class BookController implements RegistrableController {
             }
         });
 
-        app.post('/book', this.authMiddleware.isAuthenticated.bind(this.authMiddleware),
+        app.post('/book/order', this.authMiddleware.isAuthenticated.bind(this.authMiddleware),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
-                    const { services, hour } = req.body;
-                    console.log(services, hour);
-                    // Guardar en la base de datos
-                    console.log('user', res.req.body.user);
-                    this.messageBirdService.sendOrderConfirmation(res.req.body.user.phone, undefined);
-                    return dataResponse(res, 'Book saved successfully');
+                    console.log(res.req.body.user);
+                    const { serviceIds, hour } = req.body;
+                    const user = await this.userService.findByPhone(res.req.body.user.phone);
+                    const services = await this.serviceService.findByIds(serviceIds);
+                    const dates = this.orderService.calculateHours(hour, services);
+                    const values = this.orderService.calculateValues(services);
+                    const order = await this.orderService.saveNewOrder(services, user, dates, values);
+                    // Mirar si se envia un mensaje a Maria
+                    // Activar cron para monitorear las ordenes con estado en pendiente
+                    return dataResponse(res, order);
                 } catch (error) {
+                    console.log(error);
                     return next(error);
                 }
         });
@@ -113,6 +126,7 @@ export class BookController implements RegistrableController {
                     const { id } = req.body;
                     // Actualizar en la base de datos el estado por id
                     // Enviar Mensaje de whatsapp
+                    this.messageBirdService.sendOrderConfirmation(res.req.body.user.phone, undefined);
                     return dataResponse(res, 'Book saved successfully');
                 } catch (error) {
                     return next(error);

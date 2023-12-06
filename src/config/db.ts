@@ -3,6 +3,8 @@ import { ScheduleDay } from '../entity/schedule.entity';
 import { User } from '../entity/user.entity';
 import { OTP } from '../entity/otp.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { Order } from '../entity/order.entity';
+import { OrderService } from '../entity/orderService.entity';
 
 const dbOptions: DataSourceOptions = {
     type: 'postgres',
@@ -16,6 +18,8 @@ const dbOptions: DataSourceOptions = {
         OTP,
         ScheduleDay,
         Service,
+        Order,
+        OrderService
     ],
     logging: Boolean(process.env.DB_LOGGING || false),
     synchronize: Boolean(process.env.DB_SYNC || false),

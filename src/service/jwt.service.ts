@@ -13,7 +13,8 @@ export class JWTServiceImpl implements JWTService {
 
     public async generateAccessToken(user: any): Promise<string> {
         const data = {
-            name: user.name, instagram: user.instagram,
+            name: user.name,
+            instagram: user.instagram,
             phone: user.phone
         };
         return await jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '86400s' });

@@ -11,6 +11,7 @@ import CryptoUtil from '../util/crypto';
 
 export interface UserService {
     getAll(): Promise<User[]>;
+    findById(id: number): Promise<User>;
     validateUserDoesntExists(phone: string): Promise<void>;
     findByPhone(phone: string): Promise<User>;
     signUp(name: string, phone: string, instagram: string): Promise<User>;
@@ -32,6 +33,12 @@ export class UserServiceImpl implements UserService {
 
     @inject(Types.OTPRepository)
     private otpRepository: OTPRepository;
+
+    public async findById(id: number): Promise<User> {
+        const user = await this.userRepository.findById(id);
+        if (!user) throw new NotFound('Unable to find user');
+        return user;
+    }
 
     public async getAll(): Promise<User[]> {
         return await this.userRepository.findAll();

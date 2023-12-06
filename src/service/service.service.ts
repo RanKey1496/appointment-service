@@ -2,10 +2,11 @@ import { inject, injectable } from 'inversify';
 import { Service } from '../entity/service.entity';
 import { ServiceRepository } from '../repository/service.repository';
 import Types from '../config/types';
-import { BadRequest } from '../util/exceptions';
+import { BadRequest, NotFound } from '../util/exceptions';
 
 export interface ServiceService {
     findAll(): Promise<Service[]>;
+    findByIds(ids: number[]): Promise<Service[]>;
     findDurationByIds(ids: number[]): Promise<number>;
 }
 
@@ -17,6 +18,16 @@ export class ServiceServiceImpl implements ServiceService {
 
     public async findAll(): Promise<Service[]> {
         return await this.serviceRepository.findAll();
+    }
+
+    public async findByIds(ids: number[]): Promise<Service[]> {
+        const result = [];
+        for (const id of ids) {
+            const service = await this.serviceRepository.findById(id);
+            if (!service) throw new NotFound('Unable to find service by id');
+            result.push(service);
+        }
+        return result;
     }
 
     public async findDurationByIds(ids: number[]): Promise<number> {
